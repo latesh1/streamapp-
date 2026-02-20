@@ -1,0 +1,11 @@
+{
+    "extemds": "./tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@streamapp/*": [
+                "services/*"
+            ]
+        }
+    }
+}

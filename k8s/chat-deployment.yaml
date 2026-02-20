@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chat-service
+  template:
+    metadata:
+      labels:
+        app: chat-service
+    spec:
+      containers:
+        - name: chat-service
+          image: streamapp/chat-service:latest
+          ports:
+            - containerPort: 6000
+          env:
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: streamapp-secrets
+                  key: REDIS_URL
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-service
+spec:
+  selector:
+    app: chat-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 6000

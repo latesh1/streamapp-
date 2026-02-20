@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # MongoDB for data persistence
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Redis for pub/sub and caching
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # MinIO for S3-compatible storage (simulates AWS S3 locally)
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+  # LiveKit Server for WebRTC
+  livekit:
+    image: livekit/livekit-server
+    command: --config /livekit.yaml
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    volumes:
+      - ./livekit.yaml:/livekit.yaml
+
+volumes:
+  mongo_data:
+  minio_data:

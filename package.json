@@ -1,0 +1,25 @@
+{
+  "name": "streamapp-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:auth\" \"npm run dev:stream\" \"npm run dev:chat\" \"npm run dev:analytics\" \"npm run dev:web\"",
+    "dev:ip": "node scripts/start-with-ip.js",
+    "dev:auth": "npm run dev --workspace=services/auth",
+    "dev:stream": "npm run dev --workspace=services/stream",
+    "dev:chat": "npm run dev --workspace=services/chat",
+    "dev:analytics": "npm run dev --workspace=services/analytics",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
