@@ -118,7 +118,7 @@ export default function Broadcaster() {
                     serverUrl={liveKitUrl}
                     data-lk-theme="default"
                     style={{ height: '100vh' }}
-                    onDisconnected={() => router.push('/')}
+                    onDisconnected={() => { window.location.href = 'https://intergular-alexa-pseudogenerically.ngrok-free.dev/' }}
                 >
                     <BroadcasterStudio roomName={roomName} />
                 </LiveKitRoom>

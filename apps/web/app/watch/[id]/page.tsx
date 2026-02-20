@@ -66,6 +66,7 @@ export default function WatchPage() {
                     serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL || "ws://localhost:7880"}
                     data-lk-theme="default"
                     style={{ height: '100vh' }}
+                    onDisconnected={() => { window.location.href = 'https://intergular-alexa-pseudogenerically.ngrok-free.dev/' }}
                 >
                     <WatchSession streamId={streamId} />
                 </LiveKitRoom>
