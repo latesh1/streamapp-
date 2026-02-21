@@ -32,9 +32,16 @@ const newLiveKitUrl = `NEXT_PUBLIC_LIVEKIT_URL=ws://${ip}:7880`;
 const liveKitRegex = /^NEXT_PUBLIC_LIVEKIT_URL=.*$/m;
 
 if (liveKitRegex.test(webEnvContent)) {
-    webEnvContent = webEnvContent.replace(liveKitRegex, newLiveKitUrl);
+    // Only update if it's not already a cloud URL
+    if (!webEnvContent.match(/NEXT_PUBLIC_LIVEKIT_URL=wss:\/\/.*\.livekit\.cloud/)) {
+        webEnvContent = webEnvContent.replace(liveKitRegex, newLiveKitUrl);
+        console.log(`Updated ${webEnvPath} with ${newLiveKitUrl}`);
+    } else {
+        console.log(`LiveKit Cloud URL detected. Skipping local IP update for NEXT_PUBLIC_LIVEKIT_URL.`);
+    }
 } else {
     webEnvContent += `\n${newLiveKitUrl}`;
+    console.log(`Added ${newLiveKitUrl} to ${webEnvPath}`);
 }
 
 const newChatUrl = `NEXT_PUBLIC_CHAT_URL=`;
